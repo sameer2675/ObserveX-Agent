@@ -1,0 +1,9 @@
+{
+    "name": "com.observex.host",
+    "description": "ObserveX Native Host",
+    "path": "__HOST_PATH__",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://ojneolimjkjhajnklkobfpaedldahgmk/"
+    ]
+}

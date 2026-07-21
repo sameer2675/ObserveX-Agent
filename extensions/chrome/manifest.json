@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "ObserveX Monitor",
+    "version": "1.0",
+
+    "description": "We Reduce Human Error",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvzIbfq9LChvJaI1vIQrmfhEk+9P4IOX5FV3xCniSrh/Z5AMlCq8CimgUAX3cy403lUDaevm2NgUcWE9oNGDdA0VWtoDfpUfxweqOuBb5PEGEjwpC5H/5mVAfhUNBUlim8FUQ9au3LrCXfRpLe5h67Zy/nIYXC8RgmjIFyODgEPKgSKp+Q023F2RpBfjGSNhaVSFVvQQ5eg3yylK9NIOGJ2zWVqUaAvMWs9gHcNKEQntvJhvT/GkOU30uGcnjf7v9QFAf9hQuBcWvmH0nIS+iWl0KvQ0bA7Et7Tm7Nn1AjU28sRird1x9IRM42drMIE7onFLxIHmbp3yMs+3inMsfjwIDAQAB",
+
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "storage",
+        "nativeMessaging"
+    ],
+
+    "host_permissions": [
+        "<all_urls>"
+    ],
+
+    "background": {
+        "service_worker": "background.js"
+    },
+
+    "action": {
+        "default_title": "ObserveX"
+    }
+    
+}
