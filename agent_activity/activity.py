@@ -1,7 +1,6 @@
 import time
 from .keyboard import keyboard_activity
 from .mouse import mouse_activity
-
 IDLE_TIME = 300 
 
 def get_employee_activity():

@@ -22,15 +22,12 @@ def upload(endpoint, data, image_path):
         with open(image_path, "rb") as f:
 
             files = {
-                "image": f
-            }
-
+                "image": f}
             response = requests.post(
                 SERVER_URL + endpoint,
                 data=data,
                 files=files,
-                timeout=30
-            )
+                timeout=30)
         print(f"\nUPLOAD -> {endpoint}")
         print("Status:", response.status_code)
         if response.status_code in (200, 201):

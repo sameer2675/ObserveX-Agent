@@ -9,7 +9,6 @@ BROWSERS = [
     "msedge.exe",
     "opera.exe",
 ]
-
 def get_browser():
     try:
         current_window = win32gui.GetForegroundWindow()

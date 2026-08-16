@@ -7,18 +7,9 @@ import time
 from .application_detection import get_active_window_process_name
 from client.screenshot import upload_screenshot
 from config import SERVER_URL, API_UPLOAD_SCREENSHOT_ENDPOINT
-APP_DATA = os.path.join(
-    os.environ["LOCALAPPDATA"],
-    "ObserveXAgent"
-)
-
-SAVING_PATH = os.path.join(
-    APP_DATA,
-    "screenshots"
-)
-
+APP_DATA = os.path.join(os.environ["LOCALAPPDATA"], "ObserveXAgent")
+SAVING_PATH = os.path.join( APP_DATA, "screenshots")
 os.makedirs(SAVING_PATH, exist_ok=True)
-
 def capture_screenshot():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = os.path.join(SAVING_PATH, f"screenshot_{timestamp}.png")
@@ -39,10 +30,8 @@ def track_screenshot_with_active_window(device_id):
                 time.sleep(1)
                 continue
             print(app_info)
-        
             current_process = app_info["process_name"]
             current_title = app_info["window_title"]
-
             if (current_process != last_screenshot_process) or (current_title != last_screenshot_title):
                 screenshot_path = capture_screenshot()
                 response = upload_screenshot(
@@ -67,7 +56,6 @@ def capturing_screenshot(device_id):
         if app_info is None:
             print("No active window detected. Skipping screenshot capture.")
             return
-
         current_process = app_info["process_name"]
         current_title = app_info["window_title"]
         screenshot_path = capture_screenshot()

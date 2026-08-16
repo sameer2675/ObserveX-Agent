@@ -12,8 +12,7 @@ def get_active_window_process_name():
         return {
             "process_name": process.name(),
             "window_title": title,
-            "pid": process_id
-        }
+            "pid": process_id}
     except Exception as e:
         print(f"Error getting active window process name: {e}")
         return None

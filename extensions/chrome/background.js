@@ -3,18 +3,14 @@ let port = null;
 function connectNative() {
     try {
         port = chrome.runtime.connectNative("com.observex.host");
-
         port.onMessage.addListener((msg) => {
             console.log("ObserveX Agent:", msg);
         });
-
         port.onDisconnect.addListener(() => {
             console.log("Native host disconnected.");
-
             if (chrome.runtime.lastError) {
                 console.error(chrome.runtime.lastError.message);
             }
-
             port = null;
         });
 

@@ -12,7 +12,7 @@ except ImportError:
     print("Warning: 'uiautomation' package not installed. "
           "Run 'pip install uiautomation' for live tab detection. "
           "Falling back to history-based detection only.")
- 
+
 BROWSER_PATHS = {
     "chrome.exe": [
         r"~\AppData\Local\Google\Chrome\User Data\Default\History",
@@ -33,8 +33,7 @@ BROWSER_SUFFIXES = [
     " - Profile 1 - Google Chrome",
     " - Microsoft Edge",
     " - Brave",
-]
- 
+] 
 def _clean_title(title):
     if not title:
         return ""
@@ -43,31 +42,24 @@ def _clean_title(title):
             title = title[: -len(suffix)]
             break
     return title.strip().lower()
- 
- 
+
 def _normalize(text):
     return re.sub(r"\s+", " ", (text or "")).strip().lower()
- 
- 
+  
 def _looks_like_url(text):
-   
+  
     if not text:
         return False
     text = text.strip()
-    if " " in text and "://" not in text:
-       
+    if " " in text and "://" not in text:       
         return False
     return bool(re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*://", text)) or bool(
         re.match(r"^[\w.-]+\.[a-zA-Z]{2,}(/.*)?$", text)
     )
- 
- 
+
 def get_current_tab_url_live(hwnd):
-
     try:
-
         window = auto.ControlFromHandle(hwnd)
-
         if not window:
             return None
         edits = window.GetChildren()
@@ -79,7 +71,6 @@ def get_current_tab_url_live(hwnd):
                         return value
             except:
                 pass
-        
         for control, depth in auto.WalkControl(window):
             try:
                 if control.ControlTypeName == "EditControl":
@@ -93,43 +84,30 @@ def get_current_tab_url_live(hwnd):
     return None
 
 def _get_url_from_history(browser_name, window_title):
-    
     paths = BROWSER_PATHS.get(browser_name, [])
     target_title = _normalize(_clean_title(window_title))
- 
     for path in paths:
- 
         history_path = os.path.expanduser(path)
- 
         if not os.path.exists(history_path):
             continue
- 
         temp = f"history_temp_{uuid.uuid4().hex}.db"
         temp_wal = f"{temp}-wal"
         temp_shm = f"{temp}-shm"
- 
         wal_source = history_path + "-wal"
         shm_source = history_path + "-shm"
- 
         copied_files = []
- 
         try:
             shutil.copy2(history_path, temp)
             copied_files.append(temp)
- 
             if os.path.exists(wal_source):
                 shutil.copy2(wal_source, temp_wal)
                 copied_files.append(temp_wal)
- 
             if os.path.exists(shm_source):
                 shutil.copy2(shm_source, temp_shm)
                 copied_files.append(temp_shm)
- 
             conn = sqlite3.connect(temp)
             cursor = conn.cursor()
- 
             if target_title:
-               
                 cursor.execute(
                     """
                     SELECT url, title
@@ -141,7 +119,7 @@ def _get_url_from_history(browser_name, window_title):
                     (f"%{window_title.strip()}%",),
                 )
                 rows = cursor.fetchall()
- 
+
                 for url, title in rows:
                     if not url or not url.startswith("http"):
                         continue
@@ -166,13 +144,10 @@ def _get_url_from_history(browser_name, window_title):
             )
             row = cursor.fetchone()
             conn.close()
- 
             if row:
                 return {"url": row[0], "title": row[1]}
- 
         except Exception as e:
             print("Browser Error:", e)
- 
         finally:
             for f in copied_files:
                 if os.path.exists(f):
@@ -183,16 +158,14 @@ def _get_url_from_history(browser_name, window_title):
  
     return None
  
- 
 def get_url_browsers(browser_name=None, window_title=None, hwnd=None):
-   
+  
     if browser_name is None:
         return None
     browser_name = browser_name.lower()
     if hwnd is not None:
         live_url = get_current_tab_url_live(hwnd)
         if live_url:
-            return {"url": live_url, "title": window_title}
- 
+            return {"url": live_url, "title": window_title} 
     return _get_url_from_history(browser_name, window_title)
  

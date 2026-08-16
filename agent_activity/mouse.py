@@ -6,7 +6,6 @@ latest_mouse_activity = time.time()
 def on_move(x, y):
     global latest_mouse_activity
     latest_mouse_activity = time.time()
-
 def on_click(x, y, button, pressed):
     global latest_mouse_activity
     if pressed:

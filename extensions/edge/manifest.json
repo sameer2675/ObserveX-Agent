@@ -5,8 +5,6 @@
 
     "description": "ObserveX Enterprise Monitoring",
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvzIbfq9LChvJaI1vIQrmfhEk+9P4IOX5FV3xCniSrh/Z5AMlCq8CimgUAX3cy403lUDaevm2NgUcWE9oNGDdA0VWtoDfpUfxweqOuBb5PEGEjwpC5H/5mVAfhUNBUlim8FUQ9au3LrCXfRpLe5h67Zy/nIYXC8RgmjIFyODgEPKgSKp+Q023F2RpBfjGSNhaVSFVvQQ5eg3yylK9NIOGJ2zWVqUaAvMWs9gHcNKEQntvJhvT/GkOU30uGcnjf7v9QFAf9hQuBcWvmH0nIS+iWl0KvQ0bA7Et7Tm7Nn1AjU28sRird1x9IRM42drMIE7onFLxIHmbp3yMs+3inMsfjwIDAQAB",
-
-
     "permissions": [
         "tabs",
         "activeTab",

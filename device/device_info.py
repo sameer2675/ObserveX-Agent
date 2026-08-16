@@ -5,11 +5,9 @@ import uuid
 import cpuinfo
 def get_address():
     mac = uuid.getnode()
-
     return ":".join(
         f"{(mac >> ele) & 0xFF:02X}"
-        for ele in range(40, -1, -8)
-    )
+        for ele in range(40, -1, -8))
 def get_ip_address():
     try:
         hostname = socket.gethostname()
@@ -24,8 +22,6 @@ def get_system_info():
         "ram": f"{round(psutil.virtual_memory().total / (1024 ** 3), 2)}",
         "hostname": socket.gethostname(),
         "ip_address": get_ip_address(),
-        "mac_address": get_address(),
-
-    }
+        "mac_address": get_address(),}
     return system_info
 

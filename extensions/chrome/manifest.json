@@ -12,17 +12,13 @@
         "storage",
         "nativeMessaging"
     ],
-
     "host_permissions": [
         "<all_urls>"
     ],
-
     "background": {
         "service_worker": "background.js"
     },
-
     "action": {
         "default_title": "ObserveX"
     }
-    
 }

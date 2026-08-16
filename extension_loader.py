@@ -3,17 +3,14 @@ import subprocess
 import os
 import sys
 
-
 def resource_path(path):
     if getattr(sys, "frozen", False):
         return os.path.join(
             os.path.dirname(sys.executable),
-            path
-        )
+            path)
     return os.path.join(
         os.path.dirname(os.path.dirname(__file__)),
-        path
-    )
+        path)
 
 def open_chrome():
     folder = resource_path("extensions/chrome")
@@ -21,7 +18,6 @@ def open_chrome():
     chrome = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     if os.path.exists(chrome):
         subprocess.Popen([chrome, "--new-window", "chrome://extensions/"])
-
 def open_edge():
     folder = resource_path("extensions/edge")
     subprocess.Popen(["explorer.exe", folder])
@@ -34,10 +30,8 @@ def install_extension():
     app.title("ObserveX Extension Setup")
     app.geometry("760x540")
     app.resizable(False, False)
-
     chrome_done_var = ctk.IntVar(value=0)
     edge_done_var = ctk.IntVar(value=0)
-
     def check_progress():
         if chrome_done_var.get() == 1 and edge_done_var.get() == 1:
             finish_button.configure(state="normal", fg_color="#1f538d", hover_color="#14375e")
@@ -160,11 +154,8 @@ def install_extension():
         hover_color="#0b5e31"
     )
     edge_checkbox.pack(pady=(0, 15))
-
-
     footer_frame = ctk.CTkFrame(app, fg_color="transparent")
     footer_frame.pack(fill="x", padx=30, pady=(15, 20))
-
     finish_button = ctk.CTkButton(
         footer_frame,
         text="Finish Setup & Launch ObserveX",
@@ -175,7 +166,6 @@ def install_extension():
         command=finish_setup
     )
     finish_button.pack(fill="x")
-
     app.mainloop()
 if __name__ == "__main__":
     install_extension()

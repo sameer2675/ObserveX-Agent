@@ -10,10 +10,8 @@ from agent_activity.tracking_application import tracking_application
 def main():
     try:
         print("========== MAIN STARTED ==========")
-
         registration = load_registration_data()
         print(registration)
-
         if registration is None:
             print("Agent not registered.")
             return
@@ -27,8 +25,7 @@ def main():
         browser_thread = threading.Thread(
             target=start_browser_listener,
             args=(device_id,),
-            daemon=True
-        )
+            daemon=True)
         browser_thread.start()
         print("Browser listener started")
         while True:

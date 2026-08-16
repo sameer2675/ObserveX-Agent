@@ -4,9 +4,6 @@ from client.client import post
 
 def send_heartbeat(device_id):
 
-    return post(
-        API_HEARTBEAT_ENDPOINT,
+    return post(API_HEARTBEAT_ENDPOINT,
         {
-            "device_id": device_id
-        }
-    )
+            "device_id": device_id})

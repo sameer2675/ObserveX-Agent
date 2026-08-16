@@ -11,30 +11,19 @@ def start_browser_listener(device_id):
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind((HOST, PORT))
     server.listen(5)
-
     print("Browser listener started")
-
     while True:
-
         print("Waiting for browser connection...")
-
         conn, addr = server.accept()
-
         print("CONNECTED:", addr)
-
         data = conn.recv(4096)
-
         print("RAW:", data)
-
         if data:
-
             browser_data = json.loads(data.decode())
-
             print("====================")
             print("Browser Activity")
             print(browser_data)
             print("====================")
-
             payload = {
                 "device_id": device_id,
                 "url": browser_data.get("url"),
@@ -42,12 +31,12 @@ def start_browser_listener(device_id):
                 "tab_id": browser_data.get("tabId"),
                 "window_id": browser_data.get("windowId"),
             }
-
-            response = post(API_BROWSER_ACTIVITY, payload)
-
-            print("Server Response:", response)
-            if response.get("take_screenshot") :
-                print("Taking screenshot due to browser activity")
-                capturing_screenshot(device_id)
-
+            try:
+                response = post(API_BROWSER_ACTIVITY, payload)
+                print("Server Response:", response)
+                if response and response.get("take_screenshot"):
+                    print("Taking screenshot due to browser activity")
+                    capturing_screenshot(device_id)
+            except Exception as e:
+                print(f"Error handling browser activity response: {e}")
         conn.close()
