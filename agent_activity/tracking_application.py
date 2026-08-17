@@ -1,8 +1,8 @@
 import time
 from datetime import datetime
-
 from .application_detection import get_active_window_process_name
 from .activity import get_employee_activity
+from .browser_title import strip_browser_suffix
 from client.client import post
 from config import API_ACTIVITY
 BREAK_THRESHOLD = 600
@@ -26,7 +26,7 @@ def tracking_application(device_id):
             time.sleep(1)
             continue
         app_name = app_info["process_name"]
-        window_title = app_info["window_title"]
+        window_title = strip_browser_suffix(app_name, app_info["window_title"])
         status, _ = get_employee_activity()
         if status == "Active":
             active_seconds += 1

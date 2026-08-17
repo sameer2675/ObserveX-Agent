@@ -1,4 +1,4 @@
-# 🖥️ ObserveX Agent
+#  ObserveX Agent
 
 > **A native Windows endpoint agent — application/browser activity tracking, screenshot capture, and a Chrome/Edge extension bridge — reporting into the ObserveX platform in real time.**
 
@@ -10,16 +10,8 @@ ObserveX Agent is the client half of the ObserveX monitoring platform: a Windows
 ![pywin32](https://img.shields.io/badge/pywin32-Windows%20Service%20%2F%20Win32%20API-0078D6)
 ![Chrome Extension](https://img.shields.io/badge/Chrome%20%2F%20Edge-Native%20Messaging-4285F4?logo=googlechrome&logoColor=white)
 
-<!-- 🎬 VIDEO DEMO -->
-<!--
-  Recommended: record a short walkthrough (60–90s) covering:
-  installer run → registration screen → extension setup → visiting a
-  blocked site → alert + screenshot appearing on the ObserveX dashboard.
 
-  Once recorded, embed it here, e.g.:
-  [![Watch the ObserveX Agent Demo](docs/demo-thumbnail.png)](https://youtube.com/watch?v=YOUR_VIDEO_ID)
--->
-### 🎥 [Watch the Demo Video](#) <!-- TODO: add demo video link -->
+### [![Watch the ObserveX Agent Demo](demo/observex_agent.png)](https://youtu.be/3gPNIh9Y8VQ)
 
 ---
 
@@ -33,27 +25,27 @@ At a high level: the browser extension watches tab changes and forwards them thr
 
 ## Capabilities
 
-### 🔗 Server Registration & Bootstrapping
+### Server Registration & Bootstrapping
 - **GUI-driven registration** (`registration.py`, built as `registration.exe`) — collects a company `secret_token`, department/designation, and employee details, then registers both the employee and this device with the server in one step.
 - **Local registration persistence** — registration state is written to `storage/registration_storage.json`, so subsequent launches skip straight to tracking instead of re-prompting.
 - **Automatic device fingerprinting** — hostname, OS, CPU, RAM, MAC/IP address are collected and sent at registration and on every heartbeat.
 
-### 🖱️ Activity & Idle Tracking
+### Activity & Idle Tracking
 - **Foreground window tracking** (`agent_activity/tracking_application.py`) — polls the active process/window every second via `win32gui`/`win32process`/`psutil`, and reports a duration-stamped activity record every time the foreground app or window title changes.
 - **Active/idle/break classification** — per-second input activity (`pynput`-based) is bucketed into active, idle, and break time, mirroring how the dashboard's analytics breaks down usage.
 - **Periodic heartbeat** — a lightweight `device_id` ping every `HEARTBEAT_INTERVAL` seconds keeps the device's live "online" status current on the dashboard.
 
-### 🌐 Browser Activity via Native Messaging
+### Browser Activity via Native Messaging
 - **Chrome/Edge extension** (`extensions/chrome`, `extensions/edge`) — listens for tab activation and navigation-complete events and forwards `{ url, title, tabId, windowId }` to the native host.
 - **Native messaging host** (`extensions/native_host/host.py`, built as `host.exe`) — the only process the browser is allowed to launch directly; it speaks Chrome's native-messaging stdio protocol and relays each event over a local TCP socket to the main agent.
 - **Local socket bridge** (`agent_activity/browser_listener.py`) — the main agent listens on `127.0.0.1:5055`, forwards each browser event to the server's `browser_activity` endpoint, and reacts to the server's response.
 
-### 📸 Server-Directed Screenshot Capture
+### Server-Directed Screenshot Capture
 - **Policy-blind capture** — the agent never evaluates blocked-website rules itself; it captures a screenshot only when the server's `browser_activity`/`activity` response says `take_screenshot: true` (a blocked-site match or an idle-threshold breach).
 - **Full-monitor capture via `mss`** — screenshots are grabbed at the moment of the trigger, tagged with the current active window/process, uploaded, and deleted locally on confirmed upload.
 - **Runs in the interactive user session** — the supervising Windows Service launches the tracking agent inside the logged-on user's own desktop session (not Session 0), which is what makes `GetForegroundWindow()` and screen capture actually work.
 
-### 🧩 Packaging & Deployment
+### Packaging & Deployment
 - **Six independently built executables** — `main.exe` (tracking agent), `service.exe` (Windows Service supervisor), `registration.exe`, `extension_loader.exe`, `launcher.exe`, and `host.exe` (native messaging host).
 - **One-command build** — `build.bat` rebuilds every executable with `python -m PyInstaller`, using the exact hidden-imports each component needs (notably `win32ts`/`win32profile` for the service's session-aware process launch).
 - **Inno Setup installer** (`installer/setup.iss`) — installs all binaries, registers the native-messaging host with Chrome and Edge via `HKLM` registry keys, installs and starts the Windows Service, and writes Start Menu/desktop shortcuts.
@@ -183,9 +175,11 @@ observex_agent/
 │   ├── browser_listener.py            # TCP :5055 server - receives events from host.exe
 │   ├── browser_detection.py            # Detect which browser is currently foregrounded
 │   ├── browser_url.py                   # Optional history/UI-Automation URL fallback
-│   ├── screenshot.py                     # mss capture + upload, triggered by server response
-│   ├── mouse.py / keyboard.py             # Input listeners feeding idle/active detection
-│   └── activity.py                         # Active/idle status computation
+│   ├── browser_title.py                  # Strips OS browser-window suffix so titles
+│   │                                        match the extension-reported page title
+│   ├── screenshot.py                      # mss capture + upload, triggered by server response
+│   ├── mouse.py / keyboard.py              # Input listeners feeding idle/active detection
+│   └── activity.py                          # Active/idle status computation
 │
 ├── client/
 │   ├── client.py                    # post()/upload() - shared requests wrappers
@@ -335,6 +329,6 @@ SERVER_URL = "http://127.0.0.1:8000"   # your ObserveX backend URL
 
 Building native Windows systems software with a focus on correct process/session handling and clean integration boundaries between browser, OS, and server.
 
-- GitHub: `YOUR_GITHUB_URL`
-- LinkedIn: `YOUR_LINKEDIN_URL`
-- Portfolio: `YOUR_PORTFOLIO_URL`
+- GitHub:  [Sameer Raza](https://github.com/sameer2675)
+- LinkedIn: [Sameer Raza](https://www.linkedin.com/in/sameer-raza-233717319/)
+

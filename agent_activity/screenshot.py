@@ -1,10 +1,10 @@
-
 import os
 from datetime import datetime
 import mss
 from PIL import Image
 import time
 from .application_detection import get_active_window_process_name
+from .browser_title import strip_browser_suffix
 from client.screenshot import upload_screenshot
 from config import SERVER_URL, API_UPLOAD_SCREENSHOT_ENDPOINT
 APP_DATA = os.path.join(os.environ["LOCALAPPDATA"], "ObserveXAgent")
@@ -31,7 +31,7 @@ def track_screenshot_with_active_window(device_id):
                 continue
             print(app_info)
             current_process = app_info["process_name"]
-            current_title = app_info["window_title"]
+            current_title = strip_browser_suffix(app_info["process_name"], app_info["window_title"])
             if (current_process != last_screenshot_process) or (current_title != last_screenshot_title):
                 screenshot_path = capture_screenshot()
                 response = upload_screenshot(
@@ -57,7 +57,7 @@ def capturing_screenshot(device_id):
             print("No active window detected. Skipping screenshot capture.")
             return
         current_process = app_info["process_name"]
-        current_title = app_info["window_title"]
+        current_title = strip_browser_suffix(app_info["process_name"], app_info["window_title"])
         screenshot_path = capture_screenshot()
         response = upload_screenshot(
             {"device_id": device_id,
