@@ -2,7 +2,7 @@
 
 > **A native Windows endpoint agent — application/browser activity tracking, screenshot capture, and a Chrome/Edge extension bridge — reporting into the ObserveX platform in real time.**
 
-ObserveX Agent is the client half of the ObserveX monitoring platform: a Windows service + companion browser extension that tracks active-window usage, follows browser navigation via native messaging, enforces blocked-website policy by triggering server-directed screenshot capture, and keeps every monitored device's status live on the [`observex`](../observex) dashboard.
+ObserveX Agent is the client half of the ObserveX monitoring platform: a Windows service + companion browser extension that tracks active-window usage, follows browser navigation via native messaging, enforces blocked-website policy by triggering server-directed screenshot capture, and keeps every monitored device's status live on the [`observex`](https://github.com/sameer2675/Observex--Employee-Monitoring-Platform) dashboard.
 
 ![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
 ![Windows](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6?logo=windows&logoColor=white)
@@ -17,7 +17,7 @@ ObserveX Agent is the client half of the ObserveX monitoring platform: a Windows
 
 ## Overview
 
-ObserveX Agent runs on each monitored Windows machine and reports into the [`observex`](../observex) Django backend's ingestion API. It's built from several small, single-purpose Python components — a registration GUI, a background tracking process, a Windows Service supervisor, a native-messaging host, and a Chrome/Edge extension — each compiled to a standalone `.exe` with PyInstaller and wired together by an Inno Setup installer.
+ObserveX Agent runs on each monitored Windows machine and reports into the [`observex`](https://github.com/sameer2675/Observex--Employee-Monitoring-Platform) Django backend's ingestion API. It's built from several small, single-purpose Python components — a registration GUI, a background tracking process, a Windows Service supervisor, a native-messaging host, and a Chrome/Edge extension — each compiled to a standalone `.exe` with PyInstaller and wired together by an Inno Setup installer.
 
 At a high level: the browser extension watches tab changes and forwards them through Chrome's native messaging API to a small local host process, which relays them over a loopback socket to the main tracking agent. The agent reports that activity to the server, and if the server determines the site is blocked (or the user has been idle too long), it tells the agent to capture and upload a screenshot — turning every policy-relevant moment into evidence without the agent needing to know the policy itself.
 
@@ -319,7 +319,7 @@ SERVER_URL = "http://127.0.0.1:8000"   # your ObserveX backend URL
 
 ## Related Project
 
-**[`observex`](../observex)** — the Django backend and dashboard this agent reports into.
+**[`observex`](https://github.com/sameer2675/Observex--Employee-Monitoring-Platform)** — the Django backend and dashboard this agent reports into.
 
 ---
 
